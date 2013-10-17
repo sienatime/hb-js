@@ -78,13 +78,13 @@ var twilight = new Book("Twilight", "Young Adult Fantasy", "Stephanie Meyers", f
 var potter = new Book("Harry Potter", "Fantasy", "JK Rowling", false, "http://library.wheelock.edu/blog/wp-content/uploads/harrypotter.jpg");
 var iceAndFire = new Book("Game of Thrones", "Fantasy", "George R R Martin", true, "http://3.bp.blogspot.com/-Sc5_-__fCsg/Tl6N3BQ03CI/AAAAAAAABGk/fpGPt74Jqk8/s1600/Game+of+thrones+US+1.jpg");
 
-var books = [gulliver, oliver, twilight, potter];
+var books = [gulliver, iceAndFire, oliver, potter];
 
 var myBooklist = new Booklist(books);
 //myBooklist.finishCurrentBook();
-myBooklist.add(iceAndFire);
+myBooklist.add(twilight);
 
-
+var content = document.getElementById("container");
 
 for (var i=0; i<myBooklist.bookShelf.length; i++) {
     var p = document.createElement("p");
@@ -93,7 +93,7 @@ for (var i=0; i<myBooklist.bookShelf.length; i++) {
 
     p.innerHTML="<img src="+myBooklist.bookShelf[i].coverURL+" class=\"cover\" width=\"200\"><ul><li>Title: " + myBooklist.bookShelf[i].bookTitle + "</li><li>Author: " + myBooklist.bookShelf[i].author + "</li></ul>";
    
-    document.body.appendChild(p);
+    content.appendChild(p);
 
     if (myBooklist.bookShelf[i].read){
         showBookAsRead(myBooklist.bookShelf[i]);
