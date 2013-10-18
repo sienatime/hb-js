@@ -7,6 +7,11 @@
         margin: 10px;
         padding: 10px;
         height: 360px;
+        text-align: center;
+    }
+
+    p.book ul{
+        text-align: left;
     }
 
     ul{
@@ -23,30 +28,42 @@
     }
 
     #container{
-        overflow: auto;
+        /*overflow: hidden;*/
     }
 
     .currentBook{
-        background-color: rgb(236, 220, 223);
+        background-color: rgb(203, 230, 235);
         box-shadow: 6px 6px 12px #C0C0BE;
     }
 
-    .form{
-        width: 300px;
+    #finish{
+        position: relative;
+        top: -185px;
+
+        width: 200px;
+        background: rgb(240, 243, 157);
+        box-shadow: 2px 2px 41px #F7A730;
+        border: 1px #F7A730 solid;
+        font-weight: bold;
     }
 
-    label{
-        float: left;
-        clear:both;
+    #finish:hover{
+        background: #F7A730;
     }
 
-    input[type="text"]{
-        float: right;
+    h2{
+        clear: both;
     }
 
-    label.labelForRadio{
-        float: none;
+    .error{
+        display: none;
+        color: red;
     }
+
+    #footer{
+        margin-top: 20px;
+    }
+
     </style>
  <link rel="stylesheet" href="bootstrap.css">
 
@@ -60,21 +77,32 @@
     <h2>Add a New Book</h2>
 
     <div class="form">
-        <label for="bookTitle">Title</label>
-        <input type="text" name="bookTitle"></input>
-        <label for="genre">Genre</label>
-        <input type="text" name="genre"></input>
-        <label for="author">Author</label>
-        <input type="text" name="author"></input>
-        <label for="read" class="labelForRadio">Have you read this book?</label>
-            <input type="radio" name="read" value="Yes">Yes
-            <input type="radio" name="read" value="No">No
-        <label for="coverURL">URL of Cover</label>
-        <input type="text" name="coverURL"></input>
-        <button id="submitBook">Add New Book</button>
+        <table class="form">
+        <tr><td><label for="bookTitle">Title</label></td>
+        <td><input type="text" name="bookTitle"></input></td>
+        <td><span id="titleError" class="error">Please add a title.</span></td>
+        </tr>
+        <tr><td><label for="genre">Genre</label></td>
+        <td><input type="text" name="genre"></input></td>
+        <td><span id="genreError" class="error">Please add a genre.</span></td>
+    </tr>
+        <tr><td><label for="author">Author</label></td>
+        <td><input type="text" name="author"></input></td>
+<td><span id="authorError" class="error">Please add an author.</span></td>
+    </tr>
+        <tr><td><label for="coverURL">URL of Cover</label></td>
+        <td><input type="text" name="coverURL"></input></td>
+<td><span id="coverError" class="error">Please add an image URL.</span></td>
+    </tr>
+        <tr><td><label for="read" class="labelForRadio">Have you read this book?</label></td>
+        <td colspan="2"><input type="checkbox" name="read" value="Yes"></td>
+    </tr>
+        <tr><td colspan="3"><button id="submitBook">Add New Book</button></td>
+        </table>
     </div>
+    <div </div>
 
-    <div id="footer">This comes after the books</div>
+    <div id="footer">My Booklist by Jia Yi and Siena.</div>
 
 </body>
 <script src="booklist.js"></script>

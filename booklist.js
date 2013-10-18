@@ -11,7 +11,7 @@ var Booklist = function( arrayOfBooks ) {
         p.setAttribute("id",book.bookTitle);
         p.className = "book";
 
-        p.innerHTML="<img src="+book.coverURL+" class=\"cover\" width=\"200\"><ul><li>Title: " + book.bookTitle + "</li><li>Author: " + book.author + "</li></ul>";
+        p.innerHTML="<img src="+book.coverURL+" class=\"cover\" height=\"300\"><ul><li>Title: " + book.bookTitle + "</li><li>Author: " + book.author + "</li></ul>";
 
         content.appendChild(p);
 
@@ -46,8 +46,10 @@ var Booklist = function( arrayOfBooks ) {
             this.booksNotRead--;
             this.lastBook = this.currentBook;
             this.resetStyle();
+            removeFinishButton();
             this.currentBook = this.nextBook;
             styleCurrentBook(this.currentBook);
+            addFinishButton();
             this.nextBook = this.findNextBook();
         }else{
             console.log("You've read all the books!");
@@ -105,27 +107,97 @@ function styleCurrentBook(book) {
     p.className = p.className + " currentBook";
 }
 
-function addBook(e) {
+function addBook() {
     /* get all the values of the form, 
     make a new book object with those values,
     call booklist.add() with the new book we just made */
-    bookTitle = document.getElementsByName("bookTitle")[0].value;
-    bookGenre = document.getElementsByName("genre")[0].value;
-    bookAuthor = document.getElementsByName("author")[0].value;
-    bookRead = document.getElementsByName("read")[0].value;
-    if (bookRead === "Yes") {
-        bookRead = true;
-    }else{
-        bookRead = false;
+    var bookTitle = document.getElementsByName("bookTitle")[0].value;
+    var bookGenre = document.getElementsByName("genre")[0].value;
+    var bookAuthor = document.getElementsByName("author")[0].value;
+    var bookRead = document.getElementsByName("read")[0].checked;
+    var bookCover = document.getElementsByName("coverURL")[0].value;
+
+    if (!checkFormData(bookTitle, bookGenre, bookAuthor, bookCover)){
+        return;
     }
-    bookCover = document.getElementsByName("coverURL")[0].value;
 
     var newBook = new Book(bookTitle, bookGenre, bookAuthor, bookRead, bookCover);
     myBooklist.add(newBook);
+
+    document.getElementsByName("bookTitle")[0].value = "";
+    document.getElementsByName("genre")[0].value = "";
+    document.getElementsByName("author")[0].value = "";
+    document.getElementsByName("read")[0].checked = false;
+    document.getElementsByName("coverURL")[0].value = "";
     
     // e.preventDefault(); // browser - don't act!
     // e.stopPropagation(); // bubbling - stop
     // return false; // added for completeness
+}
+
+function checkFormData(bookTitle, bookGenre, bookAuthor, bookCover){
+    var errors = document.getElementsByClassName("error");
+    //check the data
+    var flag = true;
+    //blank strings are falsey
+    if (!bookTitle){
+        errors[0].setAttribute("style","display: inline");
+        flag = false;
+    }else{
+        errors[0].setAttribute("style","display: none");
+    }
+
+    if(!bookGenre){
+        errors[1].setAttribute("style","display: inline");
+        flag = false;
+    }else{
+        errors[1].setAttribute("style","display: none");
+    }
+
+    if(!bookAuthor){
+        errors[2].setAttribute("style","display: inline");
+        flag = false;
+    }else{
+        errors[2].setAttribute("style","display: none");
+    }
+
+    var imgregex = /\.(png|gif|jpg)$/;
+
+    if(!bookCover || !imgregex.exec(bookCover)){
+        errors[3].setAttribute("style","display: inline");
+        flag = false;
+    }else{
+        errors[3].setAttribute("style","display: none");
+    }
+
+    return flag;
+}
+
+function callFinishBook(){
+    myBooklist.finishCurrentBook();
+}
+
+function addFinishButton(){
+    var finishButton = document.createElement("button");
+    finishButton.setAttribute("id","finish");
+
+    finishButton.innerHTML = "Finish This Book";
+    var currentBook = document.getElementsByClassName("currentBook")[0];
+    currentBook.appendChild(finishButton);
+    finishButton.addEventListener('click', callFinishBook, false);
+}
+
+function removeFinishButton(){
+    var node = document.getElementById("finish");
+    if (node.parentNode) {
+      node.parentNode.removeChild(node);
+    }
+}
+
+function checkKeypress(e) {
+    if (e.charCode == 13) {
+        addBook();
+    }
 }
 
 var gulliver = new Book("Gulliver's Travels", "Satire", "Johnathan Swift", false, "http://4.bp.blogspot.com/-4G4nwN7K7mA/TkWDW4J_08I/AAAAAAAAAmc/xegiKU2mqDs/s400/Gulliver%2527s+Travels+movie+pictures+image.jpg");
@@ -157,3 +229,14 @@ styleCurrentBook(myBooklist.currentBook);
 
 var submitButton = document.getElementById("submitBook");
 submitButton.addEventListener('click', addBook, false);
+
+var inputFields = document.getElementsByTagName("input");
+
+for (var i = 0; i < inputFields.length; i++) {
+    if(inputFields[i].type === "text"){
+        //add event listener for keypress of Enter
+        inputFields[i].addEventListener('keypress', checkKeypress, false);
+    }
+}
+
+addFinishButton();
