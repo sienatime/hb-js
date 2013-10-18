@@ -4,7 +4,8 @@
     <style type="text/css">
     p.book{
         float:left;
-        margin: 0 10px;
+        margin: 10px;
+        padding: 10px;
         height: 360px;
     }
 
@@ -24,15 +25,56 @@
     #container{
         overflow: auto;
     }
+
+    .currentBook{
+        background-color: rgb(236, 220, 223);
+        box-shadow: 6px 6px 12px #C0C0BE;
+    }
+
+    .form{
+        width: 300px;
+    }
+
+    label{
+        float: left;
+        clear:both;
+    }
+
+    input[type="text"]{
+        float: right;
+    }
+
+    label.labelForRadio{
+        float: none;
+    }
     </style>
  <link rel="stylesheet" href="bootstrap.css">
 
 </head>
 <body>
     <h1>My Book List</h1>
-    <div id="container"></div>
-    <div id="footer">This comes after the books</div>
 
+    <h2></h2>
+
+    <div id="container"></div>
+    <h2>Add a New Book</h2>
+
+    <div class="form">
+        <label for="bookTitle">Title</label>
+        <input type="text" name="bookTitle"></input>
+        <label for="genre">Genre</label>
+        <input type="text" name="genre"></input>
+        <label for="author">Author</label>
+        <input type="text" name="author"></input>
+        <label for="read" class="labelForRadio">Have you read this book?</label>
+            <input type="radio" name="read" value="Yes">Yes
+            <input type="radio" name="read" value="No">No
+        <label for="coverURL">URL of Cover</label>
+        <input type="text" name="coverURL"></input>
+        <button id="submitBook">Add New Book</button>
+    </div>
+
+    <div id="footer">This comes after the books</div>
 
 </body>
 <script src="booklist.js"></script>
