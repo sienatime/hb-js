@@ -28,7 +28,13 @@ var Booklist = function( arrayOfBooks ) {
         }else{
             this.booksNotRead++;
         }
+
         this.addToDom(book);
+
+        if(!this.currentBook){
+            this.currentBook = book;
+            styleCurrentBook(this.currentBook);
+        }
     };
 
     for (var i = 0; i < arrayOfBooks.length; i++) {
@@ -49,7 +55,6 @@ var Booklist = function( arrayOfBooks ) {
             removeFinishButton();
             this.currentBook = this.nextBook;
             styleCurrentBook(this.currentBook);
-            addFinishButton();
             this.nextBook = this.findNextBook();
         }else{
             console.log("You've read all the books!");
@@ -105,6 +110,7 @@ function showBookAsRead(book){
 function styleCurrentBook(book) {
     var p = document.getElementById(book.bookTitle);
     p.className = p.className + " currentBook";
+    addFinishButton();
 }
 
 function addBook() {
@@ -129,10 +135,6 @@ function addBook() {
     document.getElementsByName("author")[0].value = "";
     document.getElementsByName("read")[0].checked = false;
     document.getElementsByName("coverURL")[0].value = "";
-    
-    // e.preventDefault(); // browser - don't act!
-    // e.stopPropagation(); // bubbling - stop
-    // return false; // added for completeness
 }
 
 function checkFormData(bookTitle, bookGenre, bookAuthor, bookCover){
@@ -211,22 +213,6 @@ var myBooklist = new Booklist(books);
 
 var content = document.getElementById("container");
 
-// for (var i=0; i<myBooklist.bookShelf.length; i++) {
-//     var p = document.createElement("p");
-//     p.setAttribute("id",myBooklist.bookShelf[i].bookTitle);
-//     p.className = "book";
-
-//     p.innerHTML="<img src="+myBooklist.bookShelf[i].coverURL+" class=\"cover\" width=\"200\"><ul><li>Title: " + myBooklist.bookShelf[i].bookTitle + "</li><li>Author: " + myBooklist.bookShelf[i].author + "</li></ul>";
-
-//     content.appendChild(p);
-
-//     if (myBooklist.bookShelf[i].read){
-//         showBookAsRead(myBooklist.bookShelf[i]);
-//     }
-// }
-
-styleCurrentBook(myBooklist.currentBook);
-
 var submitButton = document.getElementById("submitBook");
 submitButton.addEventListener('click', addBook, false);
 
@@ -238,5 +224,3 @@ for (var i = 0; i < inputFields.length; i++) {
         inputFields[i].addEventListener('keypress', checkKeypress, false);
     }
 }
-
-addFinishButton();
